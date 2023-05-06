@@ -5,7 +5,7 @@ venv_dir=".venv"
 
 # Ensure the virtual environment exists.
 if [ ! -d "$venv_dir" ]; then
-	./create_venv.py
+	./install/create_venv.py
 fi
 
 # Install project dependencies.
