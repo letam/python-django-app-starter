@@ -109,6 +109,6 @@ if __name__ == '__main__':
     # Install the dependencies from the pyproject.toml file.
     install_dependencies_from_pyproject_toml(pyproject_toml_path)
 
-    # TODO: Check if should install dev dependencies via args
     # Install the dev dependencies from the pyproject.toml file.
-    install_dev_dependencies_from_pyproject_toml(pyproject_toml_path)
+    if '--dev' in sys.argv:
+        install_dev_dependencies_from_pyproject_toml(pyproject_toml_path)
