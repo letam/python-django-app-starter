@@ -61,6 +61,38 @@ def install_dependencies_from_pyproject_toml(pyproject_toml_path):
     print('Dependencies installed successfully.')
 
 
+def install_dev_dependencies_from_pyproject_toml(pyproject_toml_path):
+    # Load the contents of the pyproject.toml file.
+    try:
+        import toml
+
+        with open(pyproject_toml_path, 'r') as f:
+            pyproject_toml = toml.load(f)
+    except FileNotFoundError:
+        print(f'File "{pyproject_toml_path}" not found.')
+        sys.exit(1)
+    except Exception as e:
+        print(f'Error while reading "{pyproject_toml_path}": {e}')
+        sys.exit(1)
+
+    # Extract the dependencies from the [project.optional-dependencies][dev] section.
+    try:
+        dependencies = pyproject_toml['project']['optional-dependencies']['dev']
+    except KeyError:
+        print('Dev dependencies not found in the pyproject.toml file.')
+        sys.exit(1)
+
+    # Install the dependencies using pip.
+    for package in dependencies:
+        try:
+            subprocess.check_call([_venv_pip_path, 'install', package])
+        except subprocess.CalledProcessError as e:
+            print(f'Error while installing "{package}": {e}')
+            sys.exit(1)
+
+    print('Dev dependencies installed successfully.')
+
+
 if __name__ == '__main__':
     # Path to the pyproject.toml file.
     pyproject_toml_path = 'pyproject.toml'
@@ -76,3 +108,7 @@ if __name__ == '__main__':
 
     # Install the dependencies from the pyproject.toml file.
     install_dependencies_from_pyproject_toml(pyproject_toml_path)
+
+    # TODO: Check if should install dev dependencies via args
+    # Install the dev dependencies from the pyproject.toml file.
+    install_dev_dependencies_from_pyproject_toml(pyproject_toml_path)

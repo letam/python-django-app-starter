@@ -4,3 +4,10 @@ version = "0.1.0"
 dependencies = [
   "django >= 4.2.1, < 4.3",
 ]
+
+[project.optional-dependencies]
+dev = [
+  "black",
+  "isort",
+  "ruff",
+]
