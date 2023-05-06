@@ -1,0 +1,6 @@
+[project]
+name = "mypythondjangoproject"
+version = "0.1.0"
+dependencies = [
+  "django >= 4.2.1, < 4.3",
+]
