@@ -9,4 +9,4 @@ if [ ! -d "$venv_dir" ]; then
 fi
 
 # Install project dependencies.
-./install_dependencies.py
+./install/install_dependencies.py
