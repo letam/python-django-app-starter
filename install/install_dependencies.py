@@ -15,6 +15,12 @@ def set_venv_pip_path(venv_dir):
         _venv_pip_path = os.path.join(venv_dir, 'bin', 'pip')
 
 
+def upgrade_pip():
+    print("Upgrading pip and setuptools...")
+    subprocess.check_call([_venv_pip_path, 'install', '--upgrade', 'pip', 'setuptools'])
+    print()
+
+
 def install_toml():
     def is_module_installed(name):
         import importlib.util
@@ -102,6 +108,9 @@ if __name__ == '__main__':
 
     # Gather path to pip for virtual environment.
     set_venv_pip_path(venv_dir)
+
+    # Upgrade pip and setuptools.
+    upgrade_pip()
 
     # Install toml to system to read pyproject.toml file in this Python script.
     install_toml()
