@@ -22,6 +22,7 @@ def upgrade_pip():
 
 
 def install_toml():
+    # Install toml to system to read pyproject.toml file in this Python script.
     def is_module_installed(name):
         import importlib.util
 
@@ -34,7 +35,9 @@ def install_toml():
         print()
 
 
-def install_dependencies_from_pyproject_toml(pyproject_toml_path):
+def get_pyproject_toml():
+    install_toml()
+
     # Load the contents of the pyproject.toml file.
     try:
         import toml
@@ -48,6 +51,10 @@ def install_dependencies_from_pyproject_toml(pyproject_toml_path):
         print(f'Error while reading "{pyproject_toml_path}": {e}')
         sys.exit(1)
 
+    return pyproject_toml
+
+
+def install_dependencies_from_pyproject_toml(pyproject_toml):
     # Extract the dependencies from the [project.dependencies] section.
     try:
         dependencies = pyproject_toml['project']['dependencies']
@@ -67,20 +74,7 @@ def install_dependencies_from_pyproject_toml(pyproject_toml_path):
     print('Dependencies installed successfully.')
 
 
-def install_dev_dependencies_from_pyproject_toml(pyproject_toml_path):
-    # Load the contents of the pyproject.toml file.
-    try:
-        import toml
-
-        with open(pyproject_toml_path, 'r') as f:
-            pyproject_toml = toml.load(f)
-    except FileNotFoundError:
-        print(f'File "{pyproject_toml_path}" not found.')
-        sys.exit(1)
-    except Exception as e:
-        print(f'Error while reading "{pyproject_toml_path}": {e}')
-        sys.exit(1)
-
+def install_dev_dependencies_from_pyproject_toml(pyproject_toml):
     # Extract the dependencies from the [project.optional-dependencies][dev] section.
     try:
         dependencies = pyproject_toml['project']['optional-dependencies']['dev']
@@ -112,12 +106,12 @@ if __name__ == '__main__':
     # Upgrade pip and setuptools.
     upgrade_pip()
 
-    # Install toml to system to read pyproject.toml file in this Python script.
-    install_toml()
+    # Load pyproject.toml.
+    pyproject_toml = get_pyproject_toml()
 
     # Install the dependencies from the pyproject.toml file.
-    install_dependencies_from_pyproject_toml(pyproject_toml_path)
+    install_dependencies_from_pyproject_toml(pyproject_toml)
 
     # Install the dev dependencies from the pyproject.toml file.
     if '--dev' in sys.argv:
-        install_dev_dependencies_from_pyproject_toml(pyproject_toml_path)
+        install_dev_dependencies_from_pyproject_toml(pyproject_toml)
