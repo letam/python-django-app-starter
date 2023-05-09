@@ -21,21 +21,20 @@ def upgrade_pip():
     print()
 
 
-def install_toml():
-    # Install toml to system to read pyproject.toml file in this Python script.
-    def is_module_installed(name):
-        import importlib.util
-
-        spec = importlib.util.find_spec(name)
-        return spec is not None
-
-    if not is_module_installed('toml'):
-        print('The package "toml" is required and is not found. Fixing that...')
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'toml'])
-        print()
-
-
 def get_pyproject_toml():
+    def install_toml():
+        # Install toml to system to read pyproject.toml file in this Python script.
+        def is_module_installed(name):
+            import importlib.util
+
+            spec = importlib.util.find_spec(name)
+            return spec is not None
+
+        if not is_module_installed('toml'):
+            print('The package "toml" is required and is not found. Fixing that...')
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'toml'])
+            print()
+
     install_toml()
 
     # Load the contents of the pyproject.toml file.
