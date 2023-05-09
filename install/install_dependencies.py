@@ -74,6 +74,8 @@ def install_dependencies_from_pyproject_toml(pyproject_toml):
 
 
 def install_dev_dependencies_from_pyproject_toml(pyproject_toml):
+    print('\nInstalling dev dependencies...')
+
     # Extract the dependencies from the [project.optional-dependencies][dev] section.
     try:
         dependencies = pyproject_toml['project']['optional-dependencies']['dev']
