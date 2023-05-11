@@ -4,15 +4,15 @@ import os
 import subprocess
 import sys
 
-venv_pip_path: str
+_venv_pip_path: str
 
 
 def set_venv_pip_path(venv_dir):
-    global venv_pip_path
+    global _venv_pip_path
     if os.name == 'nt':  # Windows
-        venv_pip_path = os.path.join(venv_dir, 'Scripts', 'pip')
+        _venv_pip_path = os.path.join(venv_dir, 'Scripts', 'pip')
     else:  # Unix or macOS
-        venv_pip_path = os.path.join(venv_dir, 'bin', 'pip')
+        _venv_pip_path = os.path.join(venv_dir, 'bin', 'pip')
 
 
 def install_toml():
@@ -53,7 +53,7 @@ def install_dependencies_from_pyproject_toml(pyproject_toml_path):
     print('Installing Python package dependencies for project...')
     for package in dependencies:
         try:
-            subprocess.check_call([venv_pip_path, 'install', package])
+            subprocess.check_call([_venv_pip_path, 'install', package])
         except subprocess.CalledProcessError as e:
             print(f'Error while installing "{package}": {e}')
             sys.exit(1)
