@@ -10,6 +10,8 @@ dev = [
   "black",
   "isort",
   "ruff",
+  
+  "pip-tools",
 ]
 
 [tool.black]
@@ -17,3 +19,6 @@ skip-string-normalization = true
 
 [tool.isort]
 profile = "black"
+
+[tool.setuptools]
+py-modules = []
