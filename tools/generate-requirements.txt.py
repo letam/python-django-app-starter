@@ -10,11 +10,13 @@ if __name__ == '__main__':
 
     # Generate requirements.txt
     print('Generating requirements.txt...')
-    subprocess.run(f'{venv_dir}/bin/pip-compile --generate-hashes'.split())
+    generate_requirements_cmd = f'{venv_dir}/bin/pip-compile --generate-hashes'
+    subprocess.run(generate_requirements_cmd.split())
 
     # Generate dev-requirements.txt
     print('Generating dev-requirements.txt...')
-    subprocess.run(
-        f'{venv_dir}/bin/pip-compile --generate-hashes'.split()
-        + ' --extra dev -o dev-requirements.txt'.split()
+    generate_dev_requirements_cmd = (
+        f'{venv_dir}/bin/pip-compile --generate-hashes'
+        + ' --extra dev -o dev-requirements.txt'
     )
+    subprocess.run(generate_dev_requirements_cmd.split())
