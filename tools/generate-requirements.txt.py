@@ -2,7 +2,7 @@
 
 # Generate requirements.txt and dev-requirements.txt files
 
-import os
+import glob
 import shutil
 import subprocess
 
@@ -24,5 +24,5 @@ if __name__ == '__main__':
     subprocess.run(generate_dev_requirements_cmd.split())
 
     # Remove *.egg-info directories created by pip-compile
-    for file in filter(lambda x: x.endswith('.egg-info'), os.listdir()):
+    for file in glob.glob('*.egg-info'):
         shutil.rmtree(file)
