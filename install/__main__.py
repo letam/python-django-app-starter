@@ -12,12 +12,12 @@ venv_dir = '.venv'
 
 # Ensure the virtual environment exists.
 if not os.path.isdir(venv_dir):
-    subprocess.run('./install/create_venv.py')
+    subprocess.run(['python', './install/create_venv.py'])
 
 
 # Install project dependencies.
 print('Installing project dependencies...')
 if '--dev' in sys.argv:
-    subprocess.run(['./install/install_dependencies.py', '--dev'])
+    subprocess.run(['python', './install/install_dependencies.py', '--dev'])
 else:
-    subprocess.run(['./install/install_dependencies.py'])
+    subprocess.run(['python', './install/install_dependencies.py'])

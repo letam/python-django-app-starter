@@ -4,20 +4,20 @@ import os
 import subprocess
 import sys
 
-_venv_pip_path: str
+_venv_python_path: str
 
 
-def set_venv_pip_path(venv_dir):
-    global _venv_pip_path
+def set_venv_python_path(venv_dir):
+    global _venv_python_path
     if os.name == 'nt':  # Windows
-        _venv_pip_path = os.path.join(venv_dir, 'Scripts', 'pip')
+        _venv_python_path = os.path.join(venv_dir, 'Scripts', 'python')
     else:  # Unix or macOS
-        _venv_pip_path = os.path.join(venv_dir, 'bin', 'pip')
+        _venv_python_path = os.path.join(venv_dir, 'bin', 'python')
 
 
 def upgrade_pip():
     print("Upgrading pip and setuptools...")
-    subprocess.check_call([_venv_pip_path, 'install', '--upgrade', 'pip', 'setuptools'])
+    subprocess.check_call([_venv_python_path, '-m', 'pip', 'install', '--upgrade', 'pip', 'setuptools'])
     print()
 
 
@@ -65,7 +65,7 @@ def install_dependencies_from_pyproject_toml(pyproject_toml):
     print('Installing Python package dependencies for project...')
     for package in dependencies:
         try:
-            subprocess.check_call([_venv_pip_path, 'install', package])
+            subprocess.check_call([_venv_python_path, '-m', 'pip', 'install', package])
         except subprocess.CalledProcessError as e:
             print(f'Error while installing "{package}": {e}')
             sys.exit(1)
@@ -86,7 +86,7 @@ def install_dev_dependencies_from_pyproject_toml(pyproject_toml):
     # Install the dependencies using pip.
     for package in dependencies:
         try:
-            subprocess.check_call([_venv_pip_path, 'install', package])
+            subprocess.check_call([_venv_python_path, '-m', 'pip', 'install', package])
         except subprocess.CalledProcessError as e:
             print(f'Error while installing "{package}": {e}')
             sys.exit(1)
@@ -101,8 +101,8 @@ if __name__ == '__main__':
     # Directory where the virtual environment is located.
     venv_dir = '.venv'
 
-    # Gather path to pip for virtual environment.
-    set_venv_pip_path(venv_dir)
+    # Gather path to python in virtual environment.
+    set_venv_python_path(venv_dir)
 
     # Upgrade pip and setuptools.
     upgrade_pip()
